@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 
-const OPEN_FOOD_FACTS_API_URL = 'https://world.openfoodfacts.org/api/v2/search';
+const OPEN_FOOD_FACTS_API_URL = 'https://world.openfoodfacts.org/cgi/search.pl';
 
 // IMPORTANT : Open Food Facts demande d'identifier l'application qui fait l'appel
 const USER_AGENT = 'FitFlowApp/1.0 (fitflow@example.com)';
@@ -21,9 +21,8 @@ app.get('/api/aliments/search', async (req, res) => {
     }
 
     try {
-        // Nouvelle URL pour la version 2 de l'API
-        const url = `${OPEN_FOOD_FACTS_API_URL}?search_terms=${encodeURIComponent(query)}&fields=product_name_fr,product_name,nutriments,brands,image_url,nutriscore_grade,code&page_size=20`;
-        
+        const url = `${OPEN_FOOD_FACTS_API_URL}?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page_size=20`;
+
         const response = await fetch(url, {
             headers: {
                 'User-Agent': USER_AGENT
